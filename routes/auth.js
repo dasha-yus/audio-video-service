@@ -4,8 +4,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const auth = require('../middleware/auth')
 const User = require('../models/user')
-
-const JWT_SECRET = 'qGhZtXEJa5f49jd6vBhNf6fC5gaQgUjvX9843LNyeqHYaGqhk5'
+const config = require('config')
 
 router.post('/register', async (req, res) => {
   try {
@@ -57,7 +56,7 @@ router.post('/login', async(req, res) => {
 
     const isMatch = await bcrypt.compare(password, user.password)
     if(!isMatch) return res.status(400).json({ msg: "Incorrect password" })
-    const token = jwt.sign({ id: user._id }, JWT_SECRET)
+    const token = jwt.sign({ id: user._id, role: user.role }, config.get('JWT_SECRET'), { expiresIn: 3600 })
     res.json({
       token,
       user: {
