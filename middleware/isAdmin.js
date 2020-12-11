@@ -12,7 +12,7 @@ const isAdmin = (req, res, next) => {
 		if (verified.role !== 'admin') return res.status(401).json({ msg: 'Not an admin' })
 		next()
 	} catch (err) {
-	 	res.status(500).json({ error: err.message })
+	 	res.status(401).json({ error: err.message })
 	}
 }
 
