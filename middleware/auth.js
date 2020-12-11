@@ -27,7 +27,7 @@ const isUser = (req, res, next) => {
     if (verified.role !== 'user') return res.status(401).json({ msg: 'Not a user' })
 		next()
 	} catch (err) {
-	 	res.status(500).json({ error: err.message })
+	 	res.status(401).json({ error: err.message })
 	}
 }
 
